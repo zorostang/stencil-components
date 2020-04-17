@@ -23,6 +23,10 @@ export namespace Components {
     interface NwcProgressBar {
         "value": any;
     }
+    interface NwcSubmit {
+        "loading": boolean;
+        "value": string;
+    }
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -37,9 +41,16 @@ declare global {
         prototype: HTMLNwcProgressBarElement;
         new (): HTMLNwcProgressBarElement;
     };
+    interface HTMLNwcSubmitElement extends Components.NwcSubmit, HTMLStencilElement {
+    }
+    var HTMLNwcSubmitElement: {
+        prototype: HTMLNwcSubmitElement;
+        new (): HTMLNwcSubmitElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
         "nwc-progress-bar": HTMLNwcProgressBarElement;
+        "nwc-submit": HTMLNwcSubmitElement;
     }
 }
 declare namespace LocalJSX {
@@ -60,9 +71,14 @@ declare namespace LocalJSX {
     interface NwcProgressBar {
         "value"?: any;
     }
+    interface NwcSubmit {
+        "loading"?: boolean;
+        "value"?: string;
+    }
     interface IntrinsicElements {
         "my-component": MyComponent;
         "nwc-progress-bar": NwcProgressBar;
+        "nwc-submit": NwcSubmit;
     }
 }
 export { LocalJSX as JSX };
@@ -71,6 +87,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "nwc-progress-bar": LocalJSX.NwcProgressBar & JSXBase.HTMLAttributes<HTMLNwcProgressBarElement>;
+            "nwc-submit": LocalJSX.NwcSubmit & JSXBase.HTMLAttributes<HTMLNwcSubmitElement>;
         }
     }
 }
