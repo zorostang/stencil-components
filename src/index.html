@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
-  <title>Stencil Component Starter</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
+    />
+    <title>Stencil Component Starter</title>
 
-  <script type="module" src="/build/nwc.esm.js"></script>
-  <script nomodule src="/build/nwc.js"></script>
+    <script type="module" src="/build/nwc.esm.js"></script>
+    <script nomodule src="/build/nwc.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <my-component
+      first="Stencil"
+      last="'Don't call me a framework' JS"
+    ></my-component>
+    <nwc-submit value="Loading=False" loading="false"></nwc-submit>
+    <br />
+    <p>Loading=true:</p>
+    <nwc-submit value="Loading=True" loading="true"></nwc-submit>
+    <nwc-progress-bar value="5"></nwc-progress-bar>
+    <script>
+      // TODO: replace example request with a request to json-server.
+      // see README.md in /server for more info
+      // import Request from "axios-request-handler";
 
-</head>
-<body>
+      // const reviews = new Request("http://example.com/api/reviews");
 
-  <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
-  <nwc-submit value="Loading=False" loading="false"></nwc-submit>
-  <br>
-  <p>Loading=true:</p>
-  <nwc-submit value="Loading=True" loading="true"></nwc-submit>
-  <nwc-progress-bar value=5></nwc-progress-bar>
-</body>
+      // reviews.poll(5000).get((response) => {
+      //   console.log(response.data);
+      //   // you can cancel polling by returning false
+      // });
+    </script>
+  </body>
 </html>

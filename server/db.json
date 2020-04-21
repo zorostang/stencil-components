@@ -8,7 +8,9 @@
     {
       "title": "Should we start building native web components?",
       "radio-group-yes-no": true,
-      "id": 2
+      "id": 2,
+      "yes": 20,
+      "no": 5
     }
   ]
 }
