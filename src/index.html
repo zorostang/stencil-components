@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
-  <title>Stencil Component Starter</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
+    />
+    <title>Stencil Component Starter</title>
 
-  <script type="module" src="/build/nwc.esm.js"></script>
-  <script nomodule src="/build/nwc.js"></script>
-
-</head>
-<body>
+    <script type="module" src="/build/nwc.esm.js"></script>
+    <script nomodule src="/build/nwc.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
 
   <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
   <nwc-submit value="Loading=False" loading="false"></nwc-submit>
@@ -44,5 +47,5 @@
     //   // you can cancel polling by returning false
     // });
   </script>
-</body>
+  </body>
 </html>
