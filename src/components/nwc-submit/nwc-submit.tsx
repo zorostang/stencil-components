@@ -11,7 +11,7 @@ export class NwcSubmit implements ComponentInterface {
 
   render() {
     return (
-      <button disabled={this.loading}>
+      <button disabled={this.loading} type="submit">
         <span>{this.value}</span>
         {this.loading && <div class="spinner"></div>}
       </button>

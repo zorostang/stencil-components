@@ -17,5 +17,32 @@
   <p>Loading=true:</p>
   <nwc-submit value="Loading=True" loading="true"></nwc-submit>
   <nwc-progress-bar value=5></nwc-progress-bar>
+  <br>
+  <h2>Admin Section:</h2>
+  <nwc-survey-part admin="true" question="do you like pizza?">
+    <nwc-submit value="Create Question" loading="false"></nwc-submit>
+  </nwc-survey-part>
+  <br>
+  <h2>User Section:</h2>
+  <nwc-survey-part admin="false" question="do you like pizza?"></nwc-survey-part>
+  <br>
+  <br>
+  <p>Results:</p>
+  <div>Yes: </div> 
+  <nwc-progress-bar value=55></nwc-progress-bar>
+  <div>No: </div> 
+  <nwc-progress-bar value=45></nwc-progress-bar>
+  <script>
+    // TODO: replace example request with a request to json-server.
+    // see README.md in /server for more info
+    // import Request from "axios-request-handler";
+
+    // const reviews = new Request("http://example.com/api/reviews");
+
+    // reviews.poll(5000).get((response) => {
+    //   console.log(response.data);
+    //   // you can cancel polling by returning false
+    // });
+  </script>
 </body>
 </html>
