@@ -24,6 +24,7 @@ export namespace Components {
         "value": any;
     }
     interface NwcSubmit {
+        "formId": string;
         "loading": boolean;
         "value": string;
     }
@@ -83,6 +84,7 @@ declare namespace LocalJSX {
         "value"?: any;
     }
     interface NwcSubmit {
+        "formId"?: string;
         "loading"?: boolean;
         "value"?: string;
     }
