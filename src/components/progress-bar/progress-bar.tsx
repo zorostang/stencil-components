@@ -1,6 +1,5 @@
 import { Component, Element, Prop, h } from "@stencil/core";
 import Chart from "chart.js";
-import Request from "axios-request-handler";
 
 @Component({
   tag: "nwc-progress-bar",
@@ -14,12 +13,11 @@ export class DrawingPad {
   canvas: HTMLCanvasElement;
   maxvalue = 100;
   componentDidLoad() {
-    this.getYesResults();
     const value = this.value;
     const maxvalue = this.maxvalue;
     const canvas = this.el.querySelector("canvas");
     canvas.height = 20;
-    var test = new Chart(canvas, {
+    new Chart(canvas, {
       type: "horizontalBar",
       data: {
         labels: [],
@@ -70,14 +68,7 @@ export class DrawingPad {
   //     </div>
   //   );
   // }
-  getYesResults() {
-    const reviews = new Request("http://localhost:3000/questions/2");
 
-    reviews.poll(200).get((response) => {
-      console.log(response.data);
-      // you can cancel polling by returning false
-    });
-  }
   render() {
     return (
       // todo: figure out why container was needed. component didnt render wo it
