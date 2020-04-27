@@ -13,10 +13,40 @@ export class NwcSurveyPart implements ComponentInterface {
 
   render() {
     if(this.admin){
+      function submitForm(questionText){
+        let data = {
+          title: questionText,
+          yes: 0,
+          no:0 
+        };
+        fetch('//localhost:3000/questions/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+
+      }
       return (
         <Host>
-          <form id="adminform">
-            <label htmlfor="question1">
+          <form id="adminform" onSubmit={
+            (event)=>{ 
+              let questionText = event.target[0].value;
+              console.log(event.target[0].value);
+              console.log(event);
+              console.log(event.target);
+              event.preventDefault();
+              submitForm(questionText);
+              }}>
+            <label >
               Question 1:
             </label>
             <br></br>

@@ -28,7 +28,7 @@
     <nwc-progress-bar value="5"></nwc-progress-bar>
     <br />
     <h2>Admin Section:</h2>
-    <nwc-survey-part admin="true" question="do you like pizza?">
+    <nwc-survey-part admin="true">
     </nwc-survey-part>
     <br />
     <h2>User Section:</h2>
@@ -68,7 +68,7 @@
           // Call subscribe() again to get the next message
           await setTimeout(() => {
             subscribe();
-          }, 300);
+          }, 30000);
         }
       }
       subscribe();
