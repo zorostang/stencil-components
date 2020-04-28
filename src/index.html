@@ -40,13 +40,13 @@
     <br />
     <p>Results:</p>
     <div>Yes:</div>
-    <nwc-progress-bar value="55"></nwc-progress-bar>
+    <nwc-progress-bar id="yes" value="55"></nwc-progress-bar>
     <div>No:</div>
-    <nwc-progress-bar value="45"></nwc-progress-bar>
+    <nwc-progress-bar id="no" value="45"></nwc-progress-bar>
     <script>
+      // let yes = 0; // for dev testing only, use returned value when user testing is ready
       async function subscribe() {
-        let response = await fetch("//localhost:3000/questions/2");
-
+        let response = await fetch("//localhost:3000/responses/");
         if (response.status == 502) {
           // Status 502 is a connection timeout error,
           // may happen when the connection was pending for too long,
@@ -61,10 +61,26 @@
           await subscribe();
         } else {
           // Get and show the message
-          let message = await response.json();
-          let yes = message.yes;
-          let no = message.no;
-          console.log(yes)
+          let res = await response.json();
+          // sum all yes/no values
+          const summary = res
+            .map((el) => el.response)
+            .reduce((obj, ans) => {
+              if (!obj[ans]) {
+                obj[ans] = 1;
+              } else {
+                obj[ans]++;
+              }
+              return obj;
+            }, {});
+          // update maxvalue based on yes / no sum
+          const maxvalue = summary.yes + summary.no;
+
+          document.querySelector("nwc-progress-bar[id='yes']").value = summary.yes;
+          document.querySelector("nwc-progress-bar[id='yes']").maxvalue = maxvalue;
+          document.querySelector("nwc-progress-bar[id='no']").value = summary.no;
+          document.querySelector("nwc-progress-bar[id='no']").maxvalue = maxvalue;
+
           // Call subscribe() again to get the next message
           await setTimeout(() => {
             subscribe();

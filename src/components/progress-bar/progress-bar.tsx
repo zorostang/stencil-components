@@ -8,26 +8,43 @@ import Chart from "chart.js";
 })
 export class DrawingPad {
   @Prop() value;
+  @Prop() maxvalue;
   @Element() el: HTMLElement;
   ctx: CanvasRenderingContext2D;
   canvas: HTMLCanvasElement;
-  maxvalue = 100;
+  chart: Chart;
+
+  addData() {
+    this.chart.data.datasets[0].data.pop();
+    this.chart.data.datasets[0].data.push(this.value)
+
+    this.chart.data.datasets[1].data.pop();
+    this.chart.data.datasets[1].data.push(this.maxvalue - this.value)
+
+    this.chart.update(0); // animation duration = 0. todo: can we leverage chart.js animations within a component lifecycle hook?
+  }
+
+  componentWillUpdate() {
+    this.addData();
+  }
+  // render initial chart here (only once)
+  // update the chart with chart.js api inside addData
   componentDidLoad() {
     const value = this.value;
     const maxvalue = this.maxvalue;
     const canvas = this.el.querySelector("canvas");
     canvas.height = 20;
-    new Chart(canvas, {
+    this.chart = new Chart(canvas, {
       type: "horizontalBar",
       data: {
         labels: [],
         datasets: [
           {
-            data: [value],
+            data: [value], // the positive results
             backgroundColor: "#7500c0",
           },
           {
-            data: [maxvalue - value],
+            data: [maxvalue - value], // the inverse of above
             backgroundColor: "lightgrey",
           },
         ],

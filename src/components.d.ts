@@ -21,6 +21,7 @@ export namespace Components {
         "middle": string;
     }
     interface NwcProgressBar {
+        "maxvalue": any;
         "value": any;
     }
     interface NwcSubmit {
@@ -81,6 +82,7 @@ declare namespace LocalJSX {
         "middle"?: string;
     }
     interface NwcProgressBar {
+        "maxvalue"?: any;
         "value"?: any;
     }
     interface NwcSubmit {
