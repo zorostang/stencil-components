@@ -1,3 +1,17 @@
 :host {
   display: block;
 }
+
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+textarea {
+  border: 3px solid #e5d2f1;
+  margin-bottom: 0.5rem;
+}
+
+textarea.focused {
+  background-color: #e5d2f1;
+}
