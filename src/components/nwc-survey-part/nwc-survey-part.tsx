@@ -1,4 +1,5 @@
-import { Component, ComponentInterface, Host, h, Prop, Element, State } from '@stencil/core';
+import { Component, ComponentInterface, Host, h, Prop, State, Element } from '@stencil/core';
+
 
 @Component({
   tag: 'nwc-survey-part',
@@ -6,27 +7,15 @@ import { Component, ComponentInterface, Host, h, Prop, Element, State } from '@s
   shadow: true,
 })
 export class NwcSurveyPart implements ComponentInterface {
-
   @Prop() admin: boolean;
-
-  @Prop() question: string;
-
+  @State() question: string;
   @Prop() questionId: number;
-
   @Element() el: HTMLElement;
-
   @State() btnloading: boolean = false;
 
   componentWillLoad(){
     if(!this.admin){
-      fetch('//localhost:3000/questions/'+this.questionId)
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          console.log(data);
-          this.question=data.title
-        });
+      this.subscribe();
     }
   }
   submitForm(questionText){
@@ -75,6 +64,25 @@ export class NwcSurveyPart implements ComponentInterface {
         console.error('Error:', error);
       });
 
+  }
+
+  async subscribe() {
+    let response = await fetch(`//localhost:3000/questions/${this.questionId}`);
+    if (response.status == 502) {
+      await this.subscribe();
+    } else if (response.status != 200) {
+      console.log(response.statusText);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await this.subscribe();
+    } else {
+      let res = await response.json();
+      console.log(res);
+      this.question=res.title
+      return;
+      // await setTimeout(() => {
+      //   this.subscribe();
+      // }, 300);
+    }
   }
 
   render() {

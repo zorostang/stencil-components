@@ -17,10 +17,8 @@ export class DrawingPad {
   addData() {
     this.chart.data.datasets[0].data.pop();
     this.chart.data.datasets[0].data.push(this.value)
-
     this.chart.data.datasets[1].data.pop();
     this.chart.data.datasets[1].data.push(this.maxvalue - this.value)
-
     this.chart.update(0); // animation duration = 0. todo: can we leverage chart.js animations within a component lifecycle hook?
   }
 
