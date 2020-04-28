@@ -29,9 +29,7 @@ export class NwcSurveyPart implements ComponentInterface {
   }
   submitForm(questionText){
     let data = {
-      title: questionText,
-      yes: 0,
-      no:0 
+      title: questionText
     };
     fetch('//localhost:3000/questions/', {
       method: 'POST',
@@ -80,9 +78,9 @@ export class NwcSurveyPart implements ComponentInterface {
           <form id="adminform" onSubmit={
             (event)=>{ 
               let questionText = event.target[0].value;
-              console.log(event.target[0].value);
-              console.log('event.target:');
-              console.log(event.target);
+              // console.log(event.target[0].value);
+              // console.log('event.target:');
+              // console.log(event.target);
               event.preventDefault();
               this.submitForm(questionText);
               }}>
@@ -101,10 +99,10 @@ export class NwcSurveyPart implements ComponentInterface {
       return(
         <Host>
           <form id="user-form" onSubmit={(event)=>{
-            // console.log(this.el.shadowRoot.ge)
-            let userAnswer="yes";
+            let userAnswer=this.el.shadowRoot.querySelector('input[name="user-answer"]:checked').id;
             event.preventDefault();
-            this.submitUserForm(1, userAnswer);
+            // console.log(this.el.shadowRoot.querySelector('input[name="user-answer"]:checked'));
+            this.submitUserForm(this.questionId, userAnswer);
           }}>
             <p>{this.question}</p>
             <input type="radio" id="yes" value="yes" name="user-answer" required></input>
