@@ -1,29 +1,11 @@
 {
   "questions": [
     {
-      "title": "Should we start building native web components?",
+      "title": "test",
       "id": 1
-    },
-    {
-      "title": "222Should we start building native web components?",
-      "id": 2
     }
   ],
   "responses": [
-    {
-      "questionId": 1,
-      "response": "no",
-      "id": 4
-    },
-    {
-      "questionId": 1,
-      "response": "no",
-      "id": 5
-    },
-    {
-      "questionId": 1,
-      "response": "yes",
-      "id": 6
-    }
+
   ]
 }

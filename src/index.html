@@ -40,9 +40,9 @@
     <br />
     <p>Results:</p>
     <div>Yes:</div>
-    <nwc-progress-bar id="yes" value="55"></nwc-progress-bar>
+    <nwc-progress-bar id="yes" yesvalues=""></nwc-progress-bar>
     <div>No:</div>
-    <nwc-progress-bar id="no" value="45"></nwc-progress-bar>
+    <nwc-progress-bar id="no" novalues=""></nwc-progress-bar>
     <script>
       // let yes = 0; // for dev testing only, use returned value when user testing is ready
       async function subscribe() {
@@ -74,8 +74,9 @@
               return obj;
             }, {});
           // update maxvalue based on yes / no sum
-          const maxvalue = summary.yes + summary.no;
-
+          const maxvalue = summary.yes + summary.no > 0 ? summary.yes + summary.no : 0;
+            console.log(summary.no)
+            console.log(maxvalue)
           document.querySelector("nwc-progress-bar[id='yes']").value = summary.yes;
           document.querySelector("nwc-progress-bar[id='yes']").maxvalue = maxvalue;
           document.querySelector("nwc-progress-bar[id='no']").value = summary.no;
@@ -84,7 +85,7 @@
           // Call subscribe() again to get the next message
           await setTimeout(() => {
             subscribe();
-          }, 300);
+          }, 3000);
         }
       }
       subscribe();

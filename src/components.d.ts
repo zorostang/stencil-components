@@ -31,7 +31,6 @@ export namespace Components {
     }
     interface NwcSurveyPart {
         "admin": boolean;
-        "question": string;
         "questionId": number;
     }
 }
@@ -93,7 +92,6 @@ declare namespace LocalJSX {
     }
     interface NwcSurveyPart {
         "admin"?: boolean;
-        "question"?: string;
         "questionId"?: number;
     }
     interface IntrinsicElements {
