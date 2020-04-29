@@ -14,16 +14,17 @@ export class DrawingPad {
   canvas: HTMLCanvasElement;
   chart: Chart;
 
-  addData() {
+  componentWillUpdate() {
+    // colored bar
     this.chart.data.datasets[0].data.pop();
     this.chart.data.datasets[0].data.push(this.value)
+
+    // grey bar
     this.chart.data.datasets[1].data.pop();
     this.chart.data.datasets[1].data.push(this.maxvalue - this.value)
+    console.log('this.value: ', this.value)
+    console.log('this.maxvalue: ', this.maxvalue);
     this.chart.update(0); // animation duration = 0. todo: can we leverage chart.js animations within a component lifecycle hook?
-  }
-
-  componentWillUpdate() {
-    this.addData();
   }
   // render initial chart here (only once)
   // update the chart with chart.js api inside addData
@@ -31,7 +32,7 @@ export class DrawingPad {
     const value = this.value;
     const maxvalue = this.maxvalue;
     const canvas = this.el.querySelector("canvas");
-    canvas.height = 20;
+    canvas.height = 15;
     this.chart = new Chart(canvas, {
       type: "horizontalBar",
       data: {
@@ -89,6 +90,7 @@ export class DrawingPad {
       // todo: figure out why container was needed. component didnt render wo it
       <div class="canvas-container">
         <canvas></canvas>
+        <span>({this.value}/{this.maxvalue})</span>
       </div>
     );
   }

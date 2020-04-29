@@ -17,16 +17,6 @@
     <!-- <script type="module" src="assets/getQuestion1Responses.js"></script> -->
   </head>
   <body>
-    <my-component
-      first="Stencil"
-      last="'Don't call me a framework' JS"
-    ></my-component>
-    <nwc-submit value="Loading=False" loading="false"></nwc-submit>
-    <br />
-    <p>Loading=true:</p>
-    <nwc-submit value="Loading=True" loading="true"></nwc-submit>
-    <nwc-progress-bar value="5"></nwc-progress-bar>
-    <br />
     <h2>Admin Section:</h2>
     <nwc-survey-part admin="true" question="do you like pizza?">
     </nwc-survey-part>
@@ -40,12 +30,14 @@
     <br />
     <p>Results:</p>
     <div>Yes:</div>
-    <nwc-progress-bar id="yes" yesvalues=""></nwc-progress-bar>
+    <nwc-progress-bar id="yes" value="0" maxvalue="0"></nwc-progress-bar>
     <div>No:</div>
-    <nwc-progress-bar id="no" novalues=""></nwc-progress-bar>
+    <nwc-progress-bar id="no" value="0" maxvalue="0"></nwc-progress-bar>
     <script>
       // let yes = 0; // for dev testing only, use returned value when user testing is ready
-      async function subscribe() {
+      const nwcYes = document.querySelector("nwc-progress-bar[id='yes']");
+      const nwcNo = document.querySelector("nwc-progress-bar[id='no']");
+      window.subscribe = async function subscribe() {
         let response = await fetch("//localhost:3000/responses/");
         if (response.status == 502) {
           // Status 502 is a connection timeout error,
@@ -62,8 +54,9 @@
         } else {
           // Get and show the message
           let res = await response.json();
+
           // sum all yes/no values
-          const summary = res
+          summary = res
             .map((el) => el.response)
             .reduce((obj, ans) => {
               if (!obj[ans]) {
@@ -72,20 +65,30 @@
                 obj[ans]++;
               }
               return obj;
-            }, {});
-          // update maxvalue based on yes / no sum
-          const maxvalue = summary.yes + summary.no > 0 ? summary.yes + summary.no : 0;
-            console.log(summary.no)
-            console.log(maxvalue)
-          document.querySelector("nwc-progress-bar[id='yes']").value = summary.yes;
-          document.querySelector("nwc-progress-bar[id='yes']").maxvalue = maxvalue;
-          document.querySelector("nwc-progress-bar[id='no']").value = summary.no;
-          document.querySelector("nwc-progress-bar[id='no']").maxvalue = maxvalue;
+            }, {yes: 0, no: 0});
 
+          // update maxvalue based on yes / no sum
+          const maxvalue = summary.yes + summary.no;
+          console.log(summary.yes)
+          console.log(summary.no)
+          console.log(maxvalue)
+
+          nwcYes.maxvalue = maxvalue;
+          nwcNo.maxvalue = maxvalue;
+          console.log('test1')
+          setTimeout(() => {
+            nwcYes.value = summary.yes;
+          })
+          
+          setTimeout(() => {
+            nwcNo.value = summary.no;
+          },0)
+          
+          console.log('test2')
           // Call subscribe() again to get the next message
           await setTimeout(() => {
             subscribe();
-          }, 3000);
+          }, 300);
         }
       }
       subscribe();
