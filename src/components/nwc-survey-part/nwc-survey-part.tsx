@@ -1,5 +1,6 @@
 import { Component, ComponentInterface, Host, h, Prop, State, Element } from '@stencil/core';
 
+
 @Component({
   tag: 'nwc-survey-part',
   styleUrl: 'nwc-survey-part.css',
@@ -10,13 +11,15 @@ export class NwcSurveyPart implements ComponentInterface {
   @State() question: string;
   @Prop() questionId: number;
   @Element() el: HTMLElement;
+  @State() btnloading: boolean = false;
 
-  componentWillLoad() {
+  componentWillLoad(){
     if(!this.admin){
       this.subscribe();
     }
   }
   submitForm(questionText){
+    this.btnloading = true;
     let data = {
       title: questionText
     };
@@ -29,15 +32,17 @@ export class NwcSurveyPart implements ComponentInterface {
     })
       .then((response) => response.json())
       .then((data) => {
+        this.btnloading=false;
         console.log('Success:', data);
       })
       .catch((error) => {
+        this.btnloading=false;
         console.error('Error:', error);
       });
 
   }
   submitUserForm(questionId, userAnswer){
-    
+    this.btnloading = true;
     let data = {
         "questionId": questionId,
         "response": userAnswer
@@ -51,9 +56,11 @@ export class NwcSurveyPart implements ComponentInterface {
     })
       .then((response) => response.json())
       .then((data) => {
+        this.btnloading=false;
         console.log('Success:', data.responses);
       })
       .catch((error) => {
+        this.btnloading=false;
         console.error('Error:', error);
       });
 
@@ -97,7 +104,7 @@ export class NwcSurveyPart implements ComponentInterface {
             </label>
             <br></br>
             <textarea id="question1" rows={4} cols={50} required></textarea>
-            <nwc-submit value="Create Survey" loading={false} ></nwc-submit>
+            <nwc-submit value="Create Survey" loading={this.btnloading}></nwc-submit>
           </form>
         </Host>
       );
@@ -117,7 +124,7 @@ export class NwcSurveyPart implements ComponentInterface {
             <label htmlfor="yes">Yes</label>
             <input type="radio" id="no" value="no" name="user-answer"></input>
             <label htmlfor="no">No</label>
-            <nwc-submit value="Submit Answer" loading={false} ></nwc-submit>
+            <nwc-submit value="Submit Answer" loading={this.btnloading}></nwc-submit>
           </form>
         </Host>
       );
