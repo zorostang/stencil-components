@@ -1,11 +1,24 @@
 {
   "questions": [
     {
-      "title": "test",
+      "title": "firstQ",
       "id": 1
+    },
+    {
+      "title": "secondQ",
+      "id": 2
     }
   ],
   "responses": [
-
+    {
+      "questionId": 1,
+      "response": "yes",
+      "id": 1
+    },
+    {
+      "questionId": 2,
+      "response": "no",
+      "id": 2
+    }
   ]
 }

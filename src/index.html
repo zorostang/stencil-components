@@ -21,11 +21,10 @@
     </style>
     <script type="module" src="/build/nwc.esm.js"></script>
     <script nomodule src="/build/nwc.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <h2>Admin Section:</h2>
-    <nwc-survey-part admin="true" question="do you like pizza?">
+    <nwc-survey-part admin="true">
     </nwc-survey-part>
     <br />
     <h2>User Section:</h2>
@@ -35,11 +34,68 @@
     ></nwc-survey-part>
     <br />
     <br />
-    <p>Results:</p>
+    <h2>Results:</h2>
     <div>Yes:</div>
     <nwc-progress-bar id="yes" value="0" maxvalue="0"></nwc-progress-bar>
     <div>No:</div>
     <nwc-progress-bar id="no" value="0" maxvalue="0"></nwc-progress-bar>
+    <script>
+      const userQuestion = document.querySelector("nwc-survey-part[admin='false']");
+      let latestQuestionId;
+      // fetch('//localhost:3000/questions')
+      //   .then((response) => {
+      //     return response.json();
+      //   })
+      //   .then((data) => {
+      //     latestQuestionId = data.length;
+      //     console.log(latestQuestionId);
+      //     return latestQuestionId;
+      //     // userQuestion.questionId=data.length;
+      //     // setTimeout(() => {
+      //     // console.log('update question id');
+      //     // userQuestion.questionId=latestQuestionId;
+      //     // },3000)
+      //   })
+      //   .then((latestQuestionId) => {
+      //     console.log(userQuestion);
+      //     userQuestion.questionId=latestQuestionId;
+      //   })
+
+      // setTimeout(() => {
+      //   console.log('update question id');
+      //   userQuestion.questionId=latestQuestionId;
+      //   })
+
+      const getLatestQuestionId = async function getLatestQuestionId() {
+        let resp = await fetch('//localhost:3000/questions');
+        if (resp.status == 502) {
+          // Status 502 is a connection timeout error,
+          // may happen when the connection was pending for too long,
+          // and the remote server or a proxy closed it
+          // let's reconnect
+          await getLatestQuestionId();
+        } else if (resp.status != 200) {
+          // An error - let's show it
+          console.log(resp.statusText);
+          // Reconnect in one second
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          await getLatestQuestionId();
+        } else {
+          let r = await resp.json();
+          // console.log('question data');
+          latestQuestionId = r.length;
+
+          setTimeout(() => {
+            userQuestion.questionId = latestQuestionId;
+          })
+          await setTimeout(() => {
+            getLatestQuestionId();
+          }, 300);
+        }
+      }
+      getLatestQuestionId();
+
+    </script>
     <script>
       // let yes = 0; // for dev testing only, use returned value when user testing is ready
       const nwcYes = document.querySelector("nwc-progress-bar[id='yes']");
@@ -61,9 +117,15 @@
         } else {
           // Get and show the message
           let res = await response.json();
-
+          // let currentQuestionId=1;
           // sum all yes/no values
           summary = res
+            // Only consider responses from latest question
+            .filter((el)=>{
+              if (el.questionId==latestQuestionId){
+                return el;
+              }
+            })
             .map((el) => el.response)
             .reduce((obj, ans) => {
               if (!obj[ans]) {
@@ -76,13 +138,15 @@
 
           // update maxvalue based on yes / no sum
           const maxvalue = summary.yes + summary.no;
-          console.log(summary.yes)
-          console.log(summary.no)
-          console.log(maxvalue)
+          // console.log("summary:");
+          // console.log(summary);
+          // console.log(summary.yes)
+          // console.log(summary.no)
+          // console.log(maxvalue)
 
           nwcYes.maxvalue = maxvalue;
           nwcNo.maxvalue = maxvalue;
-          console.log('test1')
+          // console.log('test1')
           setTimeout(() => {
             nwcYes.value = summary.yes;
           })
@@ -91,7 +155,7 @@
             nwcNo.value = summary.no;
           },0)
           
-          console.log('test2')
+          // console.log('test2')
           // Call subscribe() again to get the next message
           await setTimeout(() => {
             subscribe();
