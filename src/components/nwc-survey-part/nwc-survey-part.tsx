@@ -18,6 +18,12 @@ export class NwcSurveyPart implements ComponentInterface {
       this.subscribe();
     }
   }
+  componentWillUpdate(){
+    console.log("survey willupdate");
+    if(!this.admin){
+      this.subscribe();
+    }
+  }
   submitForm(questionText){
     this.btnloading = true;
     let data = {
@@ -100,7 +106,7 @@ export class NwcSurveyPart implements ComponentInterface {
               this.submitForm(questionText);
               }}>
             <label >
-              Question 1:
+              Question:
             </label>
             <br></br>
             <textarea id="question1" rows={4} cols={50} required></textarea>
